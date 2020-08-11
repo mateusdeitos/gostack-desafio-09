@@ -4,6 +4,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  Column,
+  JoinColumn,
   OneToMany,
 } from 'typeorm';
 
@@ -15,11 +17,16 @@ class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(_type => Order, order => order.customer)
+  @Column({ select: false })
+  customer_id: string;
+
+  @ManyToOne(() => Customer, { eager: true })
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
-  @OneToMany(_type => OrdersProducts, order_products => order_products.order, {
+  @OneToMany(_type => OrdersProducts, products => products.order, {
     cascade: true,
+    eager: true,
   })
   order_products: OrdersProducts[];
 

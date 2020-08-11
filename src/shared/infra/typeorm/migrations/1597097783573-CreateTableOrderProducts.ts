@@ -5,8 +5,16 @@ export default class CreateTableOrderProducts1597097783573
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_products',
+        name: 'orders_products',
         columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
           {
             name: 'order_id',
             type: 'uuid',
@@ -61,6 +69,6 @@ export default class CreateTableOrderProducts1597097783573
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_products');
+    await queryRunner.dropTable('orders_products');
   }
 }
